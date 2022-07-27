@@ -81,6 +81,16 @@ By default user used to perform requests is created by user factory `User::facto
         return $user;
     }
 
+# Without `data` wrapping
+
+By default every response is wrapped into `data`. If you remove wrapping from responses, then you also should remove wrapping from crudable tests.
+To remove wrapping while testing json structure, just put method names into array within `withoutDataWrap` method.
+
+    protected function withoutDataWrap(): array
+    {
+        return ['show', 'store', 'update'];
+    }
+
 # Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.

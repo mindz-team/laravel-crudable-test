@@ -46,4 +46,9 @@ class CrudableTest extends TestCase
     {
         return null;
     }
+
+    protected function withoutDataWrap(): array
+    {
+        return [];
+    }
 }

@@ -162,11 +162,11 @@ EOT;
             ->json('GET', route(\$this->getPrefix() . '.show', [Str::snake(class_basename(\$model)) => \$object->id]));
 
         \$response->assertOk()
-            ->assertJson([
-                'data' => [
+            ->assertJson(
+                !in_array('show', \$this->withoutDataWrap()) ? ['data' => [
                     'id' => \$object->id,
-                ],
-            ])->assertJsonStructure(\$this->getStructureFor(\$object));
+                ]] : ['id' => \$object->id],
+            )->assertJsonStructure(\$this->getStructureFor(\$object));
     }
 EOT;
     }
@@ -184,7 +184,7 @@ EOT;
             ->withHeaders(\$this->defaultHeaders())
             ->json('POST', route(\$this->getPrefix() . '.store'), \$objectToInsert->toArray());
 
-        \$response->assertCreated()->assertJsonStructure(['data' => ['id']])
+        \$response->assertCreated()->assertJsonStructure(!in_array('store', \$this->withoutDataWrap()) ? ['data' => ['id']] : ['id'])
             ->assertJsonStructure(\$this->getStructureFor(\$objectToInsert));
     }
 EOT;
@@ -202,7 +202,7 @@ EOT;
             ->withHeaders(\$this->defaultHeaders())
             ->json('PATCH', route(\$this->getPrefix() . '.update', [Str::snake(class_basename(\$model)) => \$object->id]), \$model::factory()->make()->toArray());
 
-        \$response->assertOk()->assertJsonStructure(['data' => ['id']])
+        \$response->assertOk()->assertJsonStructure(!in_array('update', \$this->withoutDataWrap()) ? ['data' => ['id']] : ['id'])
             ->assertJsonStructure(\$this->getStructureFor(\$object));
     }
 EOT;
